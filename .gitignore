@@ -1,0 +1,21 @@
+# Virtual environment
+alphacricket_env/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# IDE-specific files (optional, but recommended)
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Any generated data or model files
+*.json
+*.pkl
+
+# Logs
+*.log
