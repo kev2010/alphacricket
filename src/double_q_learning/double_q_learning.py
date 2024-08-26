@@ -44,10 +44,7 @@ def train_double_q_learning():
                 next_state = state
                 done = True
 
-            if random.uniform(0, 1) < 0.5:
-                update_Q(Q1, Q2, state, attacker_action, reward, next_state, alpha, gamma, update_Q1=True)
-            else:
-                update_Q(Q1, Q2, state, attacker_action, reward, next_state, alpha, gamma, update_Q1=False)
+            update_Q(Q1, Q2, state, attacker_action, reward, next_state, alpha, gamma, update_Q1=random.uniform(0, 1) < 0.5)
 
             state = next_state
 
