@@ -1,3 +1,5 @@
 numpy
 tqdm
 matplotlib
+nashpy
+scipy

@@ -15,46 +15,37 @@ def main():
     # Create results directory if it doesn't exist
     os.makedirs('results', exist_ok=True)
 
-    # Plot Q-value history
-    plt.figure(figsize=(14, 10))
+    # Convert q_value_history to a NumPy array for easier indexing
     q_value_history = np.array(q_value_history)
-    x_axis = np.arange(0, len(q_value_history) * 100, 100)
-    colors = plt.cm.rainbow(np.linspace(0, 1, len(actions)))
 
-    # Check if q_value_history is 1D or 2D
+    # Ensure q_value_history is 2-dimensional
     if q_value_history.ndim == 1:
-        q_value_history = q_value_history[:, np.newaxis]
+        if q_value_history.size % len(actions) == 0:
+            q_value_history = q_value_history.reshape(-1, len(actions))
+        else:
+            raise ValueError(f"Cannot reshape array of size {q_value_history.size} into shape (-1, {len(actions)})")
 
+    # Plot Q-values for each action over time
+    plt.figure(figsize=(14, 10))
     for i, action in enumerate(actions):
-        plt.plot(x_axis, q_value_history[:, i], label=f'Action {action}', color=colors[i])
+        plt.plot(q_value_history[:, i], label=f'Action {action}')
 
     plt.xlabel('Episode')
     plt.ylabel('Q-value')
-    plt.title('Q-values for Initial State Over Time')
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0., ncol=2)
+    plt.title('Q-values Over Time for Each Action')
+    plt.legend(loc='upper left')
     plt.tight_layout()
     plt.grid(True, linestyle='--', alpha=0.7)
 
-    for i, action in enumerate(actions):
-        final_q = q_value_history[-1, i]
-        plt.annotate(f'{action}: {final_q:.2f}', 
-                     xy=(x_axis[-1], final_q), 
-                     xytext=(5, 0), 
-                     textcoords='offset points', 
-                     ha='left', 
-                     va='center',
-                     fontsize=8,
-                     color=colors[i])
-
     # Save plot to results folder
-    plt.savefig('results/q_value_history.png', dpi=300, bbox_inches='tight')
+    plt.savefig('results/q_values_over_time.png', dpi=300, bbox_inches='tight')
     plt.close()
 
-    print("Q-value history plot saved as results/q_value_history.png")
+    print("Q-values plot saved as results/q_values_over_time.png")
 
     # Combine Q1 and Q2 and save to JSON
     Q_combined = Q1 + Q2
-    Q_values_dict = {state: {action: float(Q_combined[state, i]) for i, action in enumerate(actions)} for state in range(max_points + 1)}
+    Q_values_dict = {action: float(Q_combined[i]) for i, action in enumerate(actions)}
 
     with open('results/q_values.json', 'w') as f:
         json.dump(Q_values_dict, f, indent=2)
