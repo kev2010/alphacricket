@@ -15,6 +15,13 @@
    ```
 
 3. Install dependencies:
+
    ```
    pip install -r requirements.txt
+   ```
+
+4. To run:
+
+   ```
+   python3 src/main.py
    ```
