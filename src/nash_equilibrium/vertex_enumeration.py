@@ -3,7 +3,7 @@ import numpy as np
 from scipy.optimize import linprog
 
 # Define the actions
-actions = [1,5,10]
+actions = [1, 5, 10, 50, 90, 100]
 
 # Create the payoff matrix for the attacker
 payoff_matrix = np.zeros((len(actions), len(actions)))
@@ -21,8 +21,8 @@ for i, attacker_action in enumerate(actions):
 # Create the game
 game = nash.Game(payoff_matrix)
 
-# Find the Nash Equilibrium
-equilibria = list(game.support_enumeration())
+# Find the Nash Equilibrium using vertex enumeration
+equilibria = list(game.vertex_enumeration())
 
 # Print the equilibria
 for eq in equilibria:
@@ -42,8 +42,7 @@ for eq in equilibria:
 # Define a fixed strategy for the defender
 # Define a weighted average strategy for the defender based on the point values in actions
 total_points = sum(actions)
-# fixed_defender_strategy = [action / total_points for action in actions]
-fixed_defender_strategy = [1,0,0]
+fixed_defender_strategy = [action / total_points for action in actions]
 
 # Find the optimal attacker strategy to exploit the fixed defender strategy
 c = -np.dot(payoff_matrix, fixed_defender_strategy)  # Coefficients for the objective function (negative for maximization)
