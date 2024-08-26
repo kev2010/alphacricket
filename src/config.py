@@ -1,5 +1,6 @@
 # Configuration parameters
-actions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 90, 100]
+# actions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 90, 100]
+actions = [1, 5, 10]
 n_actions = len(actions)
 max_points = 1000
 alpha = 0.1

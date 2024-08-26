@@ -21,6 +21,10 @@ def main():
     x_axis = np.arange(0, len(q_value_history) * 100, 100)
     colors = plt.cm.rainbow(np.linspace(0, 1, len(actions)))
 
+    # Check if q_value_history is 1D or 2D
+    if q_value_history.ndim == 1:
+        q_value_history = q_value_history[:, np.newaxis]
+
     for i, action in enumerate(actions):
         plt.plot(x_axis, q_value_history[:, i], label=f'Action {action}', color=colors[i])
 
